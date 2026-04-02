@@ -39,6 +39,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /usr/local/bin/openfang /usr/local/bin/openfang
 
 ENV OPENFANG_HOME=/data
+ENV OPENFANG_LISTEN=0.0.0.0:4200
 VOLUME /data
 EXPOSE 4200
 
