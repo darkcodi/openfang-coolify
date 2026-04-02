@@ -31,7 +31,7 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates \
+        ca-certificates curl \
         python3 python3-pip python3-venv \
         nodejs npm \
     && rm -rf /var/lib/apt/lists/*
@@ -42,5 +42,8 @@ ENV OPENFANG_HOME=/data
 ENV OPENFANG_LISTEN=0.0.0.0:4200
 VOLUME /data
 EXPOSE 4200
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -sf http://localhost:4200/api/health || exit 1
 
 CMD ["openfang", "start"]
